@@ -55,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <MagicProvider>
             <Component {...pageProps} />
             <ToastContainer />
-            {/* {showModal && <MobileDownloadModal />} */}
+            {showModal && <MobileDownloadModal />}
             <Analytics />
           </MagicProvider>
         </SessionProvider>
