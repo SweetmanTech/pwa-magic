@@ -1,10 +1,8 @@
 
-import { Magic } from "magic-sdk"
+// lib/magic.js
+import { Magic } from "magic-sdk";
 
-// Initialize the Magic instance
-export const magic = new Magic("pk_live_559EFECDF9C84C8A", {
-  network: {
-    rpcUrl: "https://eth-sepolia.g.alchemy.com/v2/demo",
-    chainId: 11155111,
-  },
-})
+const createMagic = (key) => typeof window !== "undefined" && new Magic(key)
+
+// Pass in your publishable key from your .env file
+export const magic = createMagic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY);

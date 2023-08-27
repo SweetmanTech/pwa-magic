@@ -7,19 +7,13 @@ import CoverArtUploadButton from "../CoverArtUploadButton"
 import TituloYDescripcion from "../TituloYDescripcion/TituloYDescripcion"
 import AnimationUpload from "../AnimationUpload"
 import FundsRecipient from "../FundsRecipient"
+import { magic } from "../../lib/magic/magic"
 
 const HomePage = () => {
   const { cubierta, animationFile } = useDeploy()
   const { data: walletClient } = useWalletClient()
 
   const handleClick = async () => {
-    const magic = new Magic("pk_live_559EFECDF9C84C8A", {
-      network: {
-        rpcUrl: "https://eth-sepolia.g.alchemy.com/v2/demo",
-        chainId: 11155111,
-      },
-    })
-
     const DID = await magic.auth.loginWithSMS({
       phoneNumber: "+5491161923578",
     })
