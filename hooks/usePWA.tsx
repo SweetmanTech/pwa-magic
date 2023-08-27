@@ -1,22 +1,25 @@
 import { useEffect, useState } from "react"
 
-const usePWADownload = () => {
+const usePWA = () => {
   const [showModal, setShowModal] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    const isMobileCheck = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    setIsMobile(isMobileCheck)
     const isStandalone =
       window.matchMedia("(display-mode: standalone)").matches ||
       (window.navigator as any).standalone
 
-    if (isMobile && !isStandalone) {
+    if (isMobileCheck && !isStandalone) {
       setShowModal(true)
     }
   }, [])
 
   return {
+    isMobile,
     showModal,
   }
 }
 
-export default usePWADownload
+export default usePWA

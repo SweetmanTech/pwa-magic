@@ -7,15 +7,16 @@ import TituloYDescripcion from "../TituloYDescripcion/TituloYDescripcion"
 import AnimationUpload from "../AnimationUpload"
 import FundsRecipient from "../FundsRecipient"
 import MobileLogin from "../MobileLogin"
+import usePWA from "../../hooks/usePWA"
 
 const HomePage = () => {
   const { cubierta, animationFile } = useDeploy()
   const { data: walletClient } = useWalletClient()
+  const { isMobile } = usePWA()
 
   return (
     <div className="min-h-screen flex items-center justify-center text-white flex flex-col gap-10">
-      <ConnectButton />
-      <MobileLogin />
+      {isMobile ? <MobileLogin /> : <ConnectButton />}
       {walletClient && <CoverArtUploadButton />}
       {walletClient && animationFile && <AnimationUpload />}
       {walletClient && <TituloYDescripcion />}
