@@ -4,14 +4,14 @@ import { Magic } from "magic-sdk"
 export const magicChainId = 84531
 
 const customNodeOptions = {
-  rpcUrl: "https://goerli.base.org", // your ethereum, polygon, or optimism mainnet/testnet rpc URL
-  chainId: magicChainId, // corresponding chainId for your rpc url
+  rpcUrl: "https://goerli.base.org",
+  chainId: magicChainId,
 }
 
 const createMagic = (key: string) =>
   typeof window !== "undefined" &&
   new Magic(key, {
-    network: customNodeOptions, // connected to Polygon Mainnet!
+    network: customNodeOptions,
   })
 
 export const magic = createMagic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY)
@@ -41,7 +41,3 @@ export const getProvider = async () => {
 
 export const magicEthersProvider = () =>
   typeof window !== "undefined" && new providers.Web3Provider(magic.rpcProvider)
-
-const signTx = async () => {
-  // TODO
-}
