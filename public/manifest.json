@@ -1,9 +1,9 @@
 {
-"name": "Onchain Music Tech",
-"short_name": "onchainmusic.tech",
+"name": "Onchain Magic",
+"short_name": "onchain magic",
 "start_url": "/",
 "display": "standalone",
-"description": "A description for your application",
+"description": "onchain magic",
 "lang": " The default language of your application",
 "dir": "auto",
 "theme_color": "#000000",
@@ -11,43 +11,43 @@
 "orientation": "any",
 "icons": [
     {
-        "src": "https://www.pwabuilder.com/assets/icons/icon_512.png",
-        "sizes": "512x512",
+        "src": "/images/zorb.png",
+        "sizes": "any",
         "type": "image/png",
         "purpose": "maskable"
     },
     {
-        "src": "https://www.pwabuilder.com/assets/icons/icon_192.png",
-        "sizes": "192x192",
+        "src": "/images/lilnoun_6473.png",
+        "sizes": "any",
         "type": "image/png",
         "purpose": "any"
     }
 ],
 "screenshots": [
     {
-        "src": "https://www.pwabuilder.com/assets/screenshots/screen1.png",
-        "sizes": "1630x918",
+        "src": "/images/lilnoun_6473.png",
+        "sizes": "320x320",
         "type": "image/png",
-        "description": "A screenshot of the home page"
+        "description": "A Lil Noun"
     }
 ],
 "related_applications": [
     {
         "platform":"windows",
-        "url": " The URL to your app in that app store"
+        "url": "The URL to your app in that app store"
     }
 ],
 "prefer_related_applications": false,
 "shortcuts": [
     {
-        "name":"The name you would like to be displayed for your shortcut",
+        "name":"onchain magic",
         "url":"/",
-        "description":"A description of the functionality of this shortcut",
+        "description":"onchain magic",
         "icons": [
             {
-                "src": "https://www.pwabuilder.com/assets/icons/icon_96.png",
-                "sizes": "96x96",
-                "type": "image/png"
+                "src": "/images/lilnoun_6473.svg",
+                "sizes": "320x320",
+                "type": "image/svg"
             }
         ]
     }
