@@ -8,15 +8,18 @@ import AnimationUpload from "../AnimationUpload"
 import FundsRecipient from "../FundsRecipient"
 import MobileLogin from "../MobileLogin"
 import usePWA from "../../hooks/usePWA"
+import useMagic from "../../hooks/useMagic"
 
 const HomePage = () => {
   const { cubierta, animationFile } = useDeploy()
   const { data: walletClient } = useWalletClient()
   const { isMobile } = usePWA()
+  const { address } = useMagic()
 
   return (
     <div className="min-h-screen flex items-center justify-center text-white flex flex-col gap-10">
       {isMobile ? <MobileLogin /> : <ConnectButton />}
+      <div className="text-white">{address}</div>
       {walletClient && <CoverArtUploadButton />}
       {walletClient && animationFile && <AnimationUpload />}
       {walletClient && <TituloYDescripcion />}

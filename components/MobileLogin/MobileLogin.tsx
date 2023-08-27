@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { toast } from "react-toastify"
-import { getMagicWallet, loginWithSMS } from "../../lib/magic/magic"
+import { loginWithSMS } from "../../lib/magic/magic"
 
 const MobileLogin = () => {
   const [phoneNumber, setPhoneNumber] = useState("")
@@ -16,11 +16,9 @@ const MobileLogin = () => {
 
     try {
       await loginWithSMS(phoneNumber)
-      const account = await getMagicWallet()
-      // eslint-disable-next-line no-console
-      console.log("SWEETS account", account)
     } catch (error) {
       toast.error("Error connecting. Please try again.")
+      /* eslint-disable no-console */
       console.error(error)
     } finally {
       setIsLoading(false)
