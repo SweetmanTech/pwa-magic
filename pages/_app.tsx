@@ -22,7 +22,8 @@ import { Analytics } from "@vercel/analytics/react"
 import { alchemyProvider } from "wagmi/providers/alchemy"
 import { publicProvider } from "wagmi/providers/public"
 import MobileDownloadModal from "../components/MobileDownloadModal/ModalDownloadModal"
-import usePWADownload from "../hooks/usePWADownload"
+import usePWA from "../hooks/usePWA"
+import MagicProvider from "../providers/MagicProvider"
 
 const myChains = [mainnet, zora, optimism, base, goerli, zoraTestnet, optimismGoerli, baseGoerli]
 const { chains, publicClient, webSocketPublicClient } = configureChains(myChains, [
@@ -31,8 +32,8 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(myChains
 ])
 
 const { wallets } = getDefaultWallets({
-  appName: "ZoraProtocolRewards",
-  projectId: "68c5ce6a0bf63be0182de421f19951b8",
+  appName: "Onchain Magic",
+  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
   chains,
 })
 
@@ -45,16 +46,18 @@ const wagmiConfig = createConfig({
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { showModal } = usePWADownload()
+  const { showModal } = usePWA()
 
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider modalSize="compact" chains={chains}>
         <SessionProvider>
-          <Component {...pageProps} />
-          <ToastContainer />
-          {showModal && <MobileDownloadModal />}
-          <Analytics />
+          <MagicProvider>
+            <Component {...pageProps} />
+            <ToastContainer />
+            {showModal && <MobileDownloadModal />}
+            <Analytics />
+          </MagicProvider>
         </SessionProvider>
       </RainbowKitProvider>
     </WagmiConfig>

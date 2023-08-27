@@ -1,6 +1,18 @@
+import { providers } from "ethers"
 import { Magic } from "magic-sdk"
 
-const createMagic = (key: string) => typeof window !== "undefined" && new Magic(key)
+export const magicChainId = 84531
+
+const customNodeOptions = {
+  rpcUrl: "https://goerli.base.org",
+  chainId: magicChainId,
+}
+
+const createMagic = (key: string) =>
+  typeof window !== "undefined" &&
+  new Magic(key, {
+    network: customNodeOptions,
+  })
 
 export const magic = createMagic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY)
 
@@ -9,7 +21,23 @@ export const loginWithSMS = async (phoneNumber) =>
     phoneNumber,
   })
 
+export const disconnect = async () => magic.wallet.disconnect()
+
+export const isLoggedIn = async () => magic.user.isLoggedIn()
+
 export const getMagicWallet = async () => {
-  const accounts = await magic.wallet.connectWithUI()
-  return accounts[0]
+  if (await isLoggedIn()) {
+    const accounts = await magic.wallet.connectWithUI()
+    return accounts[0]
+  }
+  return null
 }
+
+export const getProvider = async () => {
+  const provider = await magic.wallet.getProvider()
+
+  return new providers.Web3Provider(provider)
+}
+
+export const magicEthersProvider = () =>
+  typeof window !== "undefined" && new providers.Web3Provider(magic.rpcProvider)
