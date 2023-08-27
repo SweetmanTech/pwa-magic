@@ -1,6 +1,15 @@
 /* eslint-disable no-param-reassign */
 /** @type {import('next').NextConfig} */
+const withPWA = require("next-pwa")({
+  dest: "public",
+})
+
 const nextConfig = {
+  // pwa: {
+  //   dest: "public", // the destination directory for the ServiceWorker
+  //   register: true, // set to true to automatically register the SW
+  //   skipWaiting: true, // set to true to ask the SW to skip the waiting phase
+  // },
   images: {
     domains: ["cdn.sanity.io", "pbs.twimg.com", "f005.backblazeb2.com"],
   },
@@ -11,4 +20,4 @@ const nextConfig = {
   reactStrictMode: true,
 }
 
-module.exports = nextConfig
+module.exports = withPWA(nextConfig)
