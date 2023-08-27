@@ -6,6 +6,7 @@ import CoverArtUploadButton from "../CoverArtUploadButton"
 import TituloYDescripcion from "../TituloYDescripcion/TituloYDescripcion"
 import AnimationUpload from "../AnimationUpload"
 import FundsRecipient from "../FundsRecipient"
+import MobileLogin from "../MobileLogin"
 
 const HomePage = () => {
   const { cubierta, animationFile } = useDeploy()
@@ -14,6 +15,7 @@ const HomePage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center text-white flex flex-col gap-10">
       <ConnectButton />
+      <MobileLogin />
       {walletClient && <CoverArtUploadButton />}
       {walletClient && animationFile && <AnimationUpload />}
       {walletClient && <TituloYDescripcion />}
