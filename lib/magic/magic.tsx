@@ -19,9 +19,16 @@ export const loginWithSMS = async (phoneNumber) =>
     phoneNumber,
   })
 
+export const disconnect = async () => magic.wallet.disconnect()
+
+export const isLoggedIn = async () => magic.user.isLoggedIn()
+
 export const getMagicWallet = async () => {
-  const accounts = await magic.wallet.connectWithUI()
-  return accounts[0]
+  if (await isLoggedIn()) {
+    const accounts = await magic.wallet.connectWithUI()
+    return accounts[0]
+  }
+  return null
 }
 
 export const getProvider = async () => {

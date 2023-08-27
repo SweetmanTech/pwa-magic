@@ -23,6 +23,7 @@ import { alchemyProvider } from "wagmi/providers/alchemy"
 import { publicProvider } from "wagmi/providers/public"
 import MobileDownloadModal from "../components/MobileDownloadModal/ModalDownloadModal"
 import usePWA from "../hooks/usePWA"
+import MagicProvider from "../providers/MagicProvider"
 
 const myChains = [mainnet, zora, optimism, base, goerli, zoraTestnet, optimismGoerli, baseGoerli]
 const { chains, publicClient, webSocketPublicClient } = configureChains(myChains, [
@@ -51,10 +52,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider modalSize="compact" chains={chains}>
         <SessionProvider>
-          <Component {...pageProps} />
-          <ToastContainer />
-          {showModal && <MobileDownloadModal />}
-          <Analytics />
+          <MagicProvider>
+            <Component {...pageProps} />
+            <ToastContainer />
+            {/* {showModal && <MobileDownloadModal />} */}
+            <Analytics />
+          </MagicProvider>
         </SessionProvider>
       </RainbowKitProvider>
     </WagmiConfig>

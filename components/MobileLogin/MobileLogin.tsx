@@ -1,8 +1,11 @@
 import { useState } from "react"
 import { toast } from "react-toastify"
 import { loginWithSMS } from "../../lib/magic/magic"
+import { useMagicContext } from "../../providers/MagicContext"
+import Spinner from "../Spinner"
 
 const MobileLogin = () => {
+  const { fetchMagicInfo } = useMagicContext()
   const [phoneNumber, setPhoneNumber] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
@@ -21,6 +24,7 @@ const MobileLogin = () => {
       /* eslint-disable no-console */
       console.error(error)
     } finally {
+      await fetchMagicInfo()
       setIsLoading(false)
     }
   }
@@ -45,11 +49,7 @@ const MobileLogin = () => {
         className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
         disabled={isLoading}
       >
-        {isLoading ? (
-          <div className="animate-spin w-4 h-4 border-t-2 border-white rounded-full" />
-        ) : (
-          "Connect"
-        )}
+        {isLoading ? <Spinner /> : "Connect"}
       </button>
     </div>
   )
