@@ -21,7 +21,7 @@ const HomePage = () => {
     <div className="min-h-screen flex items-center justify-center text-white flex flex-col gap-10">
       {!address && <div>{isMobile ? <MobileLogin /> : <ConnectButton />}</div>}
       <div className="text-white">{address}</div>
-      <div className="text-white">Balance: {balanceInWei && formatEther(balanceInWei)} ETH</div>
+      {balanceInWei && <div className="text-white">Balance: {formatEther(balanceInWei)} ETH</div>}
       {walletClient && <CoverArtUploadButton />}
       {walletClient && animationFile && <AnimationUpload />}
       {walletClient && <TituloYDescripcion />}
