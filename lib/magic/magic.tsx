@@ -1,9 +1,11 @@
 import { providers } from "ethers"
 import { Magic } from "magic-sdk"
 
+export const magicChainId = 84531
+
 const customNodeOptions = {
   rpcUrl: "https://goerli.base.org", // your ethereum, polygon, or optimism mainnet/testnet rpc URL
-  chainId: 84531, // corresponding chainId for your rpc url
+  chainId: magicChainId, // corresponding chainId for your rpc url
 }
 
 const createMagic = (key: string) =>
@@ -35,4 +37,11 @@ export const getProvider = async () => {
   const provider = await magic.wallet.getProvider()
 
   return new providers.Web3Provider(provider)
+}
+
+export const magicEthersProvider = () =>
+  typeof window !== "undefined" && new providers.Web3Provider(magic.rpcProvider)
+
+const signTx = async () => {
+  // TODO
 }

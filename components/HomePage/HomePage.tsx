@@ -29,6 +29,7 @@ const HomePage = () => {
           {balanceInWei && (
             <div className="text-white">Balance: {formatEther(balanceInWei)} ETH</div>
           )}
+          <DeployButton />
           {address && (
             <button type="button" onClick={logout}>
               Logout

@@ -8,6 +8,8 @@ import handleTxError from "../lib/handleTxError"
 import { useDeploy } from "../providers/DeployContext"
 import { getZoraMintUrl } from "../lib/getZoraMintUrl"
 import { uploadToIpfs } from "../lib/ipfs"
+import { isLoggedIn, magicChainId, magicEthersProvider } from "../lib/magic/magic"
+import { useMagicContext } from "../providers/MagicContext"
 
 const useZoraDeploy = () => {
   const { push } = useRouter()
@@ -15,28 +17,52 @@ const useZoraDeploy = () => {
   const { chain } = useNetwork()
   const { address } = useAccount()
   const { animationFile, cubierta, titulo, descripcion, direccionDePago } = useDeploy()
+  const { address: magicAddress } = useMagicContext()
 
   const onSuccess = (receipt) => {
+    console.log("SWEETS SUCCESS", receipt)
     const { events } = receipt
     const finalEvent = events[events.length - 1]
     const finalEventArgs = finalEvent.args
     const contractAddress = finalEventArgs.editionContractAddress
-    const mintPageUrl = getZoraMintUrl(chain.id, contractAddress)
+    const mintPageUrl = getZoraMintUrl(chain?.id || magicChainId, contractAddress)
     push(mintPageUrl)
   }
 
   const createEditionWithReferral = async () => {
+    console.log("SWEETS CREATING REFERRAL WITH MAGIC")
     try {
-      const audioCid = animationFile ? await uploadToIpfs(animationFile) : ""
-      const imageCid = await uploadToIpfs(cubierta)
-      const zoraNFTCreatorProxyAddres = getZoraNFTCreatorProxyAddress(chain?.id)
-      const contract = new Contract(zoraNFTCreatorProxyAddres, abi, signer)
+      const audioCid = animationFile
+        ? await uploadToIpfs(animationFile)
+        : "bafybeiej5flikftuwyxam7h4glcqzwhhpte3gakwzqhvrcf5evcrgfa7qm"
+      const chainId = chain?.id || magicChainId
+      console.log("SWEETS chain?.id", chainId)
+      console.log("SWEETS cubierta", cubierta)
+
+      const imageCid = cubierta
+        ? await uploadToIpfs(cubierta)
+        : "bafkreida35v3b6mfr5vcthw7yt7ww7czypouebepylr2xvss6kbfjlcynu"
+      console.log("SWEETS imageCid", imageCid)
+
+      const zoraNFTCreatorProxyAddres = getZoraNFTCreatorProxyAddress(chainId)
+      console.log("SWEETS zoraNFTCreatorProxyAddres", zoraNFTCreatorProxyAddres)
+
+      let effectiveSigner
+      const magicConnected = await isLoggedIn()
+
+      if (magicConnected) {
+        effectiveSigner = magicEthersProvider().getSigner()
+      } else {
+        effectiveSigner = signer
+      }
+
+      const contract = new Contract(zoraNFTCreatorProxyAddres, abi, effectiveSigner)
       const name = titulo || ""
       const symbol = "MW3"
       const editionSize = "18446744073709551615"
       const royaltyBps = 500
-      const fundsRecipient = direccionDePago
-      const defaultAdmin = address
+      const fundsRecipient = magicConnected ? magicAddress : direccionDePago
+      const defaultAdmin = magicConnected ? magicAddress : address
       const salesConfig = {
         publicSalePrice: 0,
         maxSalePurchasePerAddress: 100,
@@ -49,7 +75,7 @@ const useZoraDeploy = () => {
       const description = descripcion.replace(/\n/g, "\\n")
       const animationUri = audioCid ? `ipfs://${audioCid}` : ""
       const imageUri = `ipfs://${imageCid}`
-      const createReferral = process.env.NEXT_PUBLIC_CREATE_REFERRAL || address
+      const createReferral = process.env.NEXT_PUBLIC_CREATE_REFERRAL || defaultAdmin
       const tx = await contract.createEditionWithReferral(
         name,
         symbol,

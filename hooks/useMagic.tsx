@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { disconnect, getMagicWallet, getProvider, isLoggedIn } from "../lib/magic/magic"
+import { disconnect, getMagicWallet, magicEthersProvider, isLoggedIn } from "../lib/magic/magic"
 
 const useMagic = () => {
   const [address, setAddress] = useState("")
@@ -12,12 +12,11 @@ const useMagic = () => {
     console.log("SWEETS connected", connected)
 
     if (connected) {
-      const provider = await getProvider()
-      console.log("SWEETS PROVIDER", provider)
+      console.log("SWEETS PROVIDER", magicEthersProvider())
       const magicWallet = await getMagicWallet()
       console.log("SWEETS magicWallet", magicWallet)
       setAddress(magicWallet)
-      const balanceWei = await provider.getBalance(magicWallet)
+      const balanceWei = await magicEthersProvider().getBalance(magicWallet)
       setBalanceInWei(balanceWei)
       setLoading(false)
       return
