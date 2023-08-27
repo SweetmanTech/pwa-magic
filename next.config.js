@@ -1,5 +1,9 @@
 /* eslint-disable no-param-reassign */
 /** @type {import('next').NextConfig} */
+const withPWA = require("next-pwa")({
+  dest: "public",
+})
+
 const nextConfig = {
   images: {
     domains: ["cdn.sanity.io", "pbs.twimg.com", "f005.backblazeb2.com"],
@@ -11,4 +15,4 @@ const nextConfig = {
   reactStrictMode: true,
 }
 
-module.exports = nextConfig
+module.exports = withPWA(nextConfig)

@@ -46,3 +46,8 @@ utils/db/serviceAccountKey.json
 
 # Testing
 pages/api/temp.ts
+
+
+# PWA
+public/sw.*
+public/workbox-*

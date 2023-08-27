@@ -21,6 +21,8 @@ import * as React from "react"
 import { Analytics } from "@vercel/analytics/react"
 import { alchemyProvider } from "wagmi/providers/alchemy"
 import { publicProvider } from "wagmi/providers/public"
+import MobileDownloadModal from "../components/MobileDownloadModal/ModalDownloadModal"
+import usePWADownload from "../hooks/usePWADownload"
 
 const myChains = [mainnet, zora, optimism, base, goerli, zoraTestnet, optimismGoerli, baseGoerli]
 const { chains, publicClient, webSocketPublicClient } = configureChains(myChains, [
@@ -43,12 +45,15 @@ const wagmiConfig = createConfig({
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { showModal } = usePWADownload()
+
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider modalSize="compact" chains={chains}>
         <SessionProvider>
           <Component {...pageProps} />
           <ToastContainer />
+          {showModal && <MobileDownloadModal />}
           <Analytics />
         </SessionProvider>
       </RainbowKitProvider>
