@@ -9,12 +9,9 @@ const useMagic = () => {
   const fetchMagicInfo = async () => {
     setLoading(true)
     const connected = await isLoggedIn()
-    console.log("SWEETS connected", connected)
 
     if (connected) {
-      console.log("SWEETS PROVIDER", magicEthersProvider())
       const magicWallet = await getMagicWallet()
-      console.log("SWEETS magicWallet", magicWallet)
       setAddress(magicWallet)
       const balanceWei = await magicEthersProvider().getBalance(magicWallet)
       setBalanceInWei(balanceWei)
@@ -27,10 +24,8 @@ const useMagic = () => {
   }
 
   const logout = async () => {
-    console.log("SWEETS LOGGING OUT")
     await disconnect()
     await fetchMagicInfo()
-    console.log("SWEETS LOGGED OUT")
   }
 
   useEffect(() => {

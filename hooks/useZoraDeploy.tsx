@@ -20,7 +20,6 @@ const useZoraDeploy = () => {
   const { address: magicAddress } = useMagicContext()
 
   const onSuccess = (receipt) => {
-    console.log("SWEETS SUCCESS", receipt)
     const { events } = receipt
     const finalEvent = events[events.length - 1]
     const finalEventArgs = finalEvent.args
@@ -30,22 +29,17 @@ const useZoraDeploy = () => {
   }
 
   const createEditionWithReferral = async () => {
-    console.log("SWEETS CREATING REFERRAL WITH MAGIC")
     try {
       const audioCid = animationFile
         ? await uploadToIpfs(animationFile)
         : "bafybeiej5flikftuwyxam7h4glcqzwhhpte3gakwzqhvrcf5evcrgfa7qm"
       const chainId = chain?.id || magicChainId
-      console.log("SWEETS chain?.id", chainId)
-      console.log("SWEETS cubierta", cubierta)
 
       const imageCid = cubierta
         ? await uploadToIpfs(cubierta)
         : "bafkreida35v3b6mfr5vcthw7yt7ww7czypouebepylr2xvss6kbfjlcynu"
-      console.log("SWEETS imageCid", imageCid)
 
       const zoraNFTCreatorProxyAddres = getZoraNFTCreatorProxyAddress(chainId)
-      console.log("SWEETS zoraNFTCreatorProxyAddres", zoraNFTCreatorProxyAddres)
 
       let effectiveSigner
       const magicConnected = await isLoggedIn()
