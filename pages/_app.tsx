@@ -31,8 +31,8 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(myChains
 ])
 
 const { wallets } = getDefaultWallets({
-  appName: "ZoraProtocolRewards",
-  projectId: "68c5ce6a0bf63be0182de421f19951b8",
+  appName: "Onchain Magic",
+  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
   chains,
 })
 
@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <SessionProvider>
           <Component {...pageProps} />
           <ToastContainer />
-          {/* {showModal && <MobileDownloadModal />} */}
+          {showModal && <MobileDownloadModal />}
           <Analytics />
         </SessionProvider>
       </RainbowKitProvider>
